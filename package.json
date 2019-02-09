@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Mich1970/Nodejs_server#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.15.3",
     "mysql": "^2.16.0"
   }

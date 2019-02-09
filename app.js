@@ -1,14 +1,60 @@
-const express = require('express')
+var express = require('express');
 var mysql = require('mysql');
-const app = express()
-const port = 3000
+var bodyParser = require('body-parser');
 
-app.get('/', (req, res) => res.send('Hello World!'))
+// Pug preparation
+const path = require('path');
+
+//Important! const path = require('path'); must be declared before this for the app to find the route
+var routes = require('./routes/index');
+var db = require('./database/DBservice');
+
+// Create a new instance of express
+var app = express();
+
+//app.use(bodyParser.json());
+app.use(bodyParser.json());
+// Tell express to use the body-parser middleware and to not parse extended bodies
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Pug preparation
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+
+app.use('/', routes);
+//app.use('/routes', routes);
+
+module.exports = app;
+
+const port = 3000;
+
+
 
 // Starts Nodejs_server
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-//Create MySQL Database named mydb
+//app.get('/', (req, res) => res.send('Hello World!'));
+
+
+/*
+app.get('/', (req, res) => {
+if (req.query.id == 2)
+  res.send('got it');
+else if (req.query.id == 4)
+// Return params id sent in the request if id = 4
+  res.send('you sent ' + req.query.id);
+
+/*
+  if (err) throw err;
+  con.query("SELECT * FROM Dishes WHERE id = '5'", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result[2].Dish);
+    res.send(result);
+  });
+*/
+//});
+
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -16,47 +62,14 @@ var con = mysql.createConnection({
 //  insecureAuth: true
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected to MySQL server!");
-  // Check if mydb already exists
-  /*
-  con.query("SHOW DATABASES", function (err, result) {
-    if (err) throw err;
-    console.log("Database created" + result);
-  });
-  */
-  // Create DB named mydb if not already created
-  con.query("CREATE DATABASE IF NOT EXISTS mydb", function (err, result) {
-    if (err) throw err;
-    console.log("mydb Database created");
-  });
+//Create MySQL Database named mydb
+db.DB_create(con);
+// Insert item into DB mydb
+db.DB_insert(con);
+// Get all items in database
+db.DB_getall(con);
 
-// Select the created database mydb
-  con.query("USE mydb", function (err, result) {
-    if (err) throw err;
-    console.log("mydb selected (use)");
-  });
 
-  //Create Table (if not already created) with id automatically added (id INT AUTO_INCREMENT PRIMARY KEY)
-  var sql = "CREATE TABLE IF NOT EXISTS Dishes (id INT AUTO_INCREMENT PRIMARY KEY, Dish VARCHAR(255), CreatedBy VARCHAR(255))";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Dishes Table created");
-  });
 
-  //Insert data into the Table
-  var sql = "INSERT INTO Dishes (Dish, CreatedBy) VALUES ('Pizza', 'Mikael Rydén')";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("1 record inserted into Dishes");
-  });
-
-  // Get all inserted records
-  if (err) throw err;
-  con.query("SELECT * FROM Dishes", function (err, result, fields) {
-    if (err) throw err;
-    console.log(result);
-  });
-
-});
+// create application/x-www-form-urlencoded parser
+//var urlencodedParser = bodyParser.urlencoded({ extended: false })
