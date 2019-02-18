@@ -1,5 +1,6 @@
 
-
+//const path = require('path');
+var db = require('../database/DBservice');
 
 exports.index = function(req, res, next) {
     res.send('NOT IMPLEMENTED: Site Home Page');
@@ -7,37 +8,31 @@ exports.index = function(req, res, next) {
 
 // Display list of all recepies.
 // http://localhost:3000/recipie/list
+//----------------------------------------
 exports.recipie_list_get = function(req, res, next) {
     // Get all inserted records
-    /*
-    if (err) throw err;
-    con.query("SELECT * FROM Dishes", function (err, result, fields) {
-      if (err) throw err;
-      console.log(result);
+
+    db.DB_getall(function(list){
+      console.log(list);
+      res.send('Recepie list: ' + JSON.stringify(list));
     });
-    */
-    res.send('NOT IMPLEMENTED: recepie list');
+
 };
 
 // Display detail page for a specific recipie.
 // http://localhost:3000/recipie/list/5
-exports.recipie_detail_get = function(req, res, next) {
+//----------------------------------------
+exports.recipie_item_get = function(req, res, next) {
 
-    // Select the created database mydb
-    con.query("USE mydb", function (err, result) {
-      if (err) throw err;
-      console.log("mydb selected (use)");
+    db.DB_get_item(req.params.id, function(item){
+      console.log('Dish : ' + item);
+      res.send('Dish : ' + JSON.stringify(item));
     });
 
-    //if (err) throw err;
-    con.query("SELECT Dish FROM Dishes WHERE id=5", function (err, result, fields) {
-      if (err) throw err;
-      console.log(result);
-    });
-    res.send('NOT IMPLEMENTED: recepie detail: ' + req.params.id);
 };
 
 // Display recepie create form on GET.
+//----------------------------------------
 exports.recipie_create_get = function(req, res, next) {
 /*  if (req.query.id == 2)
     res.send('got it');
@@ -49,26 +44,31 @@ exports.recipie_create_get = function(req, res, next) {
 };
 
 // Handle recepie create on POST.
+//----------------------------------------
 exports.recipie_create_post = function(req, res, next) {
     res.send('NOT IMPLEMENTED: recepie create POST');
 };
 
 // Display recepie delete form on GET.
+//----------------------------------------
 exports.recepie_delete_get = function(req, res, next) {
     res.send('NOT IMPLEMENTED: recepie delete GET');
 };
 
 // Handle recepie delete on POST.
+//----------------------------------------
 exports.recepie_delete_post = function(req, res, next) {
     res.send('NOT IMPLEMENTED: recepie delete POST');
 };
 
 // Display recepie update form on GET.
+//----------------------------------------
 exports.recepie_update_get = function(req, res, next) {
     res.send('NOT IMPLEMENTED: recepie update GET');
 };
 
 // Handle recepie update on POST.
+//----------------------------------------
 exports.recepie_update_post = function(req, res, next) {
     res.send('NOT IMPLEMENTED: recepie update POST');
 };

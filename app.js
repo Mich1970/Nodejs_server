@@ -55,20 +55,23 @@ else if (req.query.id == 4)
 */
 //});
 
+/*
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "Mi19Secure!"
 //  insecureAuth: true
 });
+*/
 
 //Create MySQL Database named mydb
-db.DB_create(con);
+db.DB_create();
 // Insert item into DB mydb
-db.DB_insert(con);
+db.DB_insert();
 // Get all items in database
-db.DB_getall(con);
+db.DB_getall(function(list){});
 
+db.DB_get_con();
 
 
 // create application/x-www-form-urlencoded parser

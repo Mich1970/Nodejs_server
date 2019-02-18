@@ -24,8 +24,8 @@ router.post('/recipie/create', recipie_controller.recipie_create_post);
 // GET list recipie page.
 router.get('/recipie/list', recipie_controller.recipie_list_get);
 // GET one recipie, e.g. http://localhost:3000/recipie/list/5
-router.get('/recipie/list/:id', recipie_controller.recipie_detail_get);
-
+//router.get('/recipie/list/:id', recipie_controller.recipie_detail_get);
+router.get('/recipie/list/:id', recipie_controller.recipie_item_get);
 
 
 /*
