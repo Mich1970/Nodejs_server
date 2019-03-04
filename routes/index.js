@@ -4,15 +4,9 @@ var router = express.Router();
 // Require controller modules.
 var recipie_controller = require('../controllers/recipieController');
 
-//const app = require('./../app');
 
-//app.use(bodyParser.json());
-//app.use(bodyParser.json());
-// Tell express to use the body-parser middleware and to not parse extended bodies
-//app.use(bodyParser.urlencoded({ extended: false }));
-
-/// BOOK ROUTES ///
-
+/// Recipie ROUTES ///
+//------------------------//
 // GET catalog home page.
 router.get('/', recipie_controller.index);
 

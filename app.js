@@ -67,7 +67,7 @@ var con = mysql.createConnection({
 //Create MySQL Database named mydb
 db.DB_create();
 // Insert item into DB mydb
-db.DB_insert();
+//db.DB_insert();
 // Get all items in database
 db.DB_getall(function(list){});
 

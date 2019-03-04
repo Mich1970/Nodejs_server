@@ -9,16 +9,15 @@ var con = mysql.createConnection({
 });
 
 //Get MySQL Database (mydb) connection object
-//----------------------------------------
+//---------------------------------------- Done
 module.exports.DB_get_con = function() {
   console.log("Fetched db connection" + con);
   return con;
 };
 
 //Get Dish for requested id from database (mydb) connection object
-//----------------------------------------
+//---------------------------------------- Done
 module.exports.DB_get_item = function(id, callback) {
-//  var ID = id;
 
   // Select the created database mydb
   con.query("USE mydb", function (err, result) {
@@ -34,7 +33,7 @@ module.exports.DB_get_item = function(id, callback) {
 };
 
 //Create MySQL Database named mydb
-//----------------------------------------
+//---------------------------------------- Done
 module.exports.DB_create = function() {
 
   // Connect to MySQL server
@@ -65,8 +64,8 @@ module.exports.DB_create = function() {
 };
 
 //Insert data into the Table
-//----------------------------------------
-module.exports.DB_insert = function() {
+//---------------------------------------- Done
+module.exports.DB_insert = function(param1, param2, callback) {
 
   // Select the created database mydb
   con.query("USE mydb", function (err, result) {
@@ -74,15 +73,16 @@ module.exports.DB_insert = function() {
     console.log("mydb selected (use)");
   });
 
-  var sql = "INSERT INTO Dishes (Dish, CreatedBy) VALUES ('Pasta', 'Mikael Rydén')";
-  con.query(sql, function (err, result) {
+  // Insert received parameters into DB
+  var sql = `INSERT INTO Dishes (Dish, CreatedBy) VALUES (?, ?)`;
+  con.query(sql, [param1, param2], function (err, result) {
     if (err) throw err;
-    console.log("1 record inserted into Dishes");
+    callback(); //Return to calling function
   });
 };
 
 // Get all inserted records
-//----------------------------------------
+//---------------------------------------- Done
 module.exports.DB_getall = function(callback) {
 
   // Select the created database mydb
@@ -90,13 +90,11 @@ module.exports.DB_getall = function(callback) {
     if (err) throw err;
     console.log("mydb selected (use)");
   });
-//  result='not set';
-  //if (err) throw err;
+
+  // Fetch all DB items
   con.query("SELECT * FROM Dishes", function (err, result, fields) {
     if (err) throw err;
-//    console.log(result[23]);
-    callback(result);
-
+    callback(result); //Return to calling function with DB result
   });
 
 };
